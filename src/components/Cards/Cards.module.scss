@@ -1,0 +1,55 @@
+$enable-negative-margins: true;
+
+.badge{
+    top: 10px;
+    right: 20px;
+    font-size: 16px;
+}
+
+
+.cards{
+    border-top: 2px solid black;
+    border-right: 2px solid black;
+    border-left: 2px solid black;
+    border-radius: 12px 12px 0 0;
+}
+
+.imgBorder{
+    border: 10px solid black;
+}
+
+.img{
+    border-radius: 10px 10px 0 0;
+}
+
+.content{
+    padding: 10px;
+}
+
+.btn{
+    border: 2px  solid black;
+    margin-top: -3px;
+    border-radius: 0 0 10px 10px; 
+}
+
+.btn:hover{
+    color: red;
+}
+
+.fav{
+    border: 2px  solid #BB2D3B;
+    margin-top: -3px;
+    border-radius: 0 0 10px 10px; 
+}
+
+.notFav{
+    border: 2px  solid #5C636A;
+    margin-top: -3px;
+    border-radius: 0 0 10px 10px; 
+}
+
+.mbn1 {
+    margin-bottom: -1rem !important;
+}
+
+
