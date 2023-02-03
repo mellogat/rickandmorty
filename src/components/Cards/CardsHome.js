@@ -2,6 +2,7 @@ import React from 'react'
 import styles from "./Cards.module.scss"
 import { Link } from 'react-router-dom';
 import FavButton from "../FavButton/FavButton.js"
+import { useAuthValue } from '../../AuthContext.js';
 
 function shuffle(arr) {
     let currentIndex = arr.length,  randomIndex;
@@ -23,8 +24,9 @@ function shuffle(arr) {
 }
 
 
-const cardshome = ({results,page}) => {
+const Cardshome = ({results,page}) => {
     let display;
+    const {currentUser} = useAuthValue();
 
     if(results){
         //shuffle the results to get 5 random characters
@@ -40,7 +42,8 @@ const cardshome = ({results,page}) => {
                         <div className="fs-4 fw-bold text-dark">{name}</div>
                     </div>
                 </Link> 
-                <FavButton id={id}/> 
+                {currentUser ? <FavButton id={id}/> : <React.Fragment/>}
+                
                 {(()=>{
                         if(status === "Dead"){
                             return(
@@ -72,4 +75,4 @@ const cardshome = ({results,page}) => {
   )
 }
 
-export default cardshome
+export default Cardshome

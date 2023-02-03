@@ -3,7 +3,6 @@ import { useCookies } from 'react-cookie';
 import styles from "../Cards/Cards.module.scss"
 
 function FavButton({id}) {
-
     const [cookies, setCookie] = useCookies(['favorites']);
     let favorites;
     try {
@@ -14,6 +13,8 @@ function FavButton({id}) {
     }
 
     const isFavorited = favorites.includes(id.toString());
+
+  
 
   function toggleFavorite() {
     let newFavorites;

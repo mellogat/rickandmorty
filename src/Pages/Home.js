@@ -1,5 +1,6 @@
 import React ,{useState,useEffect}from 'react'
 import { useCookies } from 'react-cookie';
+import { useAuthValue } from '../AuthContext.js';
 
 import CardsHome from "../components/Cards/CardsHome.js";
 import CardsHomeFav from "../components/Cards/CardsHomeFav.js";
@@ -12,6 +13,8 @@ const Home = () => {
     let [cookies] = useCookies(['favorites']);
     let favorites = cookies.favorites ? cookies.favorites : [];
     let idStr = favorites.toString();
+    const {currentUser} = useAuthValue();
+
   
   
     let api = `https://rickandmortyapi.com/api/character/?page=${pageNumber}`;
@@ -33,23 +36,43 @@ const Home = () => {
       })();
     },[apiFav]);
   
-  
-  
-    if(Array.isArray(favorites) && !favorites.length){
-      return (
-        <div className="App">
+    if(currentUser){
+      if(Array.isArray(favorites) && !favorites.length){
+        return (
+          <div className="App">
+            
+            <h1 className="text-center mb-3">Characters</h1>
+            
           
-          <h1 className="text-center mb-3">Characters</h1>
-          
-        
-        <div className="container ">
-          <div className="row justify-content-center">
-            <CardsHome page="/" className="" results={results}/>
+          <div className="container ">
+            <div className="row justify-content-center">
+              <CardsHome page="/" className="" results={results}/>
+            </div>
           </div>
-        </div>
-    
-        </div>
-      );
+      
+          </div>
+        );
+      }else{
+        return (
+          <div className="App">
+  
+            
+            <h1 className="text-center mb-3">Characters</h1>
+            
+          
+          <div className="container ">
+            <div className="row justify-content-center">
+              <CardsHome page="/" className="" results={results}/>
+            </div>
+            <h1 className="text-center mb-2 mt-4">Favorites</h1>
+            <div className="row justify-content-center">
+              <CardsHomeFav page="/" className="" fetchedFavData={fetchedFavData}/>
+            </div>
+          </div>
+      
+          </div>
+        );
+      }
     }else{
       return (
         <div className="App">
@@ -61,15 +84,14 @@ const Home = () => {
           <div className="row justify-content-center">
             <CardsHome page="/" className="" results={results}/>
           </div>
-          <h1 className="text-center mb-2 mt-4">Favorites</h1>
-          <div className="row justify-content-center">
-            <CardsHomeFav page="/" className="" fetchedFavData={fetchedFavData}/>
-          </div>
         </div>
     
         </div>
       );
     }
+  
+  
+    
   
     
   }

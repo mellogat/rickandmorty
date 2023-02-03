@@ -21,3 +21,7 @@ body{
     color: #aeaeae;
     border-left: 1px solid #aeaeae;
 }
+
+p{
+    margin-bottom: 0;
+}

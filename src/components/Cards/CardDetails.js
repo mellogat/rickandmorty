@@ -3,14 +3,18 @@ import {useParams} from "react-router-dom"
 import styles from "./Cards.module.scss"
 import Table from '../Info/Table';
 import FavButton from '../FavButton/FavButton';
+import { useAuthValue } from '../../AuthContext.js';
+
 
 const CardDetails = () => {
 
   let {id} = useParams();
+  
 
   let [fetchedData,updateFetchedData] = useState([]);
   let {name, image,origin,location,gender,species,status,type} = fetchedData;
   let [results, setResults] = useState([]);
+  const {currentUser} = useAuthValue();
 
     let api=`https://rickandmortyapi.com/api/character/${id}`;
 
@@ -52,7 +56,8 @@ const CardDetails = () => {
                 })()}
 
             <div className="content" >
-                <FavButton id={id}/> 
+                {currentUser ? <FavButton id={id}/> : <React.Fragment/>}
+                
                 <div className="mt-3">
                     <span className='fw-bold '>Gender : </span>{gender}
                 </div>
