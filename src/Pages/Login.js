@@ -1,24 +1,30 @@
 import {useState} from 'react'
 import { Link } from 'react-router-dom'
 import './forms.css'
-import {signInWithEmailAndPassword, sendEmailVerification} from 'firebase/auth'
-import {auth} from './firebase'
+import {signInWithEmailAndPassword} from 'firebase/auth'
+import {auth, writeUserData} from '../firebase'
 import {useNavigate} from 'react-router-dom'
-import {useAuthValue} from './AuthContext'
+import { useDispatch } from 'react-redux';
+import { setCurrentUser } from '../store/action';
 
 
-function Login(){
+
+const Login = () =>{
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('') 
   const [error, setError] = useState('')
-  const {setTimeActive} = useAuthValue()
   const navigate = useNavigate()
+  const dispatch = useDispatch();
+
 
   const login = e => {
     e.preventDefault()
+    
     signInWithEmailAndPassword(auth, email, password)
     .then(() => {
+       writeUserData(auth.currentUser.uid,auth.currentUser.email)
+       dispatch(setCurrentUser(auth.currentUser));
        navigate('/')
     })
     .catch(err => setError(err.message))
@@ -54,4 +60,6 @@ function Login(){
   )
 }
 
-export default Login
+
+
+export default Login;

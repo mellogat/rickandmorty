@@ -2,7 +2,8 @@ import React from 'react'
 import styles from "./Cards.module.scss"
 import { Link } from 'react-router-dom';
 import FavButton from "../FavButton/FavButton.js"
-import { useAuthValue } from '../../AuthContext.js';
+
+import { useSelector } from 'react-redux';
 
 
 
@@ -11,11 +12,10 @@ import { useAuthValue } from '../../AuthContext.js';
 
 const Cards = ({results,page}) => {
     let display;
-    const {currentUser} = useAuthValue();
+    const currentUser = useSelector(state => state.currentUser);
 
 
     if(results){
-        //let resultsSliced=results.slice(0,5);
         display = results.map( elem => {
             let {id,name,image,status} = elem;
             return (
@@ -26,7 +26,7 @@ const Cards = ({results,page}) => {
                         <div className="fs-4 fw-bold mb-2">{name}</div>
                     </div>
                 </Link> 
-                {currentUser ? <FavButton id={id}/> : <React.Fragment/>}
+                {Object.keys(currentUser).length === 0 ?  <React.Fragment/>: <FavButton id={id}/>}
                 
                 {(()=>{
                     if(status === "Dead"){

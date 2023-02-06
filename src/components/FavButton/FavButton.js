@@ -1,39 +1,38 @@
 import React from 'react';
-import { useCookies } from 'react-cookie';
 import styles from "../Cards/Cards.module.scss"
+import { writeFav , removeFav, checkIdInList} from '../../firebase';
+import { useSelector } from 'react-redux';
 
 function FavButton({id}) {
-    const [cookies, setCookie] = useCookies(['favorites']);
-    let favorites;
-    try {
-      favorites = cookies.favorites ? cookies.favorites : [];
-    } catch (error) {
-      console.error(error);
-      favorites = [];
-    }
+    const currentUser = useSelector(state => state.currentUser);
+    //const [cookies, setCookie] = useCookies(['favorites']);
 
-    const isFavorited = favorites.includes(id.toString());
+    //retrieve cookies
+    //favorites = cookies.favorites ? cookies.favorites : [];
+    
+
+    //check if id (char) is favorited or not
+    //const isFavorited = id ? favorites.includes(id.toString()) : false;
+    
+
+    const isFavorited = checkIdInList('users/'+ currentUser.uid + '/favIds', id,currentUser.uid)
 
   
 
   function toggleFavorite() {
-    let newFavorites;
+    //let newFavorites;
     if (isFavorited) {
-      newFavorites = favorites.filter(favorite => favorite !== id.toString());
-    } else {
-      if(favorites.length === 0){
-        newFavorites = [...favorites, id.toString()];
+      //remove from cookie
+      //newFavorites = favorites.filter(favorite => favorite !== id.toString());
+      removeFav(currentUser.uid,id)
 
-        //problem in Home.js where with only one element in the favorites array, it crashes because the id is undefined
-        //but if the window is refreshed, the result is okay,
-        //maybe its a racing condition caused by the 2 useEffect in app.js 
-        //for now this is the temporary solution
-        window.location.reload();
-      }else{
-        newFavorites = [...favorites, id.toString()];
-      }
+
+    } else {
+      //add to cookie
+      //newFavorites = [...favorites, id.toString()];
+      writeFav(currentUser.uid,id)
     }
-    setCookie('favorites', newFavorites, { path: '/' });
+    //setCookie('favorites', newFavorites, { path: '/' });
   }
 
   function submitHandler(){

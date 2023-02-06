@@ -1,9 +1,10 @@
 import {useState} from 'react'
 import './forms.css'
-import {auth} from './firebase'
+import {auth} from '../firebase'
 import {useNavigate, Link} from 'react-router-dom'
-import {createUserWithEmailAndPassword, sendEmailVerification} from 'firebase/auth'
-import {useAuthValue} from './AuthContext'
+import {createUserWithEmailAndPassword} from 'firebase/auth'
+import { useDispatch } from 'react-redux';
+import { setCurrentUser } from '../store/action';
 
 function Register() {
 
@@ -12,7 +13,9 @@ function Register() {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState('')
   const navigate = useNavigate()
-  const {setTimeActive} = useAuthValue()
+  const dispatch = useDispatch();
+
+
 
   const validatePassword = () => {
     let isValid = true
@@ -43,6 +46,7 @@ function Register() {
       // Create a new user with email and password using firebase
         createUserWithEmailAndPassword(auth, email, password)
         .then(() => {
+            dispatch(setCurrentUser(auth.currentUser));
             navigate('/')
         })
         .catch(err => setError(err.message))

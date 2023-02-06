@@ -2,9 +2,11 @@ import React, {useState, useEffect} from 'react'
 import { useParams } from 'react-router-dom';
 import Cards from '../components/Cards/Cards';
 import InputGroup from '../components/Info/InputGroup';
+import { connect } from 'react-redux';
 
 
-const Episodes = () => {
+
+const Episodes = ({email}) => {
     let {id} = useParams();
 
     //id is initialised by URL, if id doesnt exist, default id = 1
@@ -44,7 +46,7 @@ const Episodes = () => {
     <div className="container">
         <div className="row mb-4">
             {/*if name is blank, unknown is placed instead of blank space */}
-            <h1 className='text-center'>Episode : {name===""? "Unknown" : name} </h1>
+            <h1 className='text-center'>Episode : {name===""? "Unknown" : name}</h1>
             <h5 className='text-center'>Air Date : {air_date===""? "Unknown" : air_date} </h5>
             <h5 className='text-center'>Code : {episode===""? "Unknown" : episode} </h5>
         </div>
@@ -65,5 +67,8 @@ const Episodes = () => {
     
   )
 }
+const mapStateToProps = (state) => ({
+  email: state.email,
+});
 
-export default Episodes
+export default connect(mapStateToProps)(Episodes)

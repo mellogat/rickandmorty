@@ -1,20 +1,27 @@
 import React from 'react'
-import { useAuthValue } from '../AuthContext.js';
 import { signOut } from 'firebase/auth' 
 import { auth } from '../firebase'
 import {useNavigate} from 'react-router-dom'
 
+import { useDispatch } from 'react-redux';
+import { clearCurrentUser } from '../store/action';
+import { useSelector } from 'react-redux';
+
+
 
 
 const Logout = () => {
-    const {currentUser} = useAuthValue();
     const navigate = useNavigate()
+    const dispatch = useDispatch();
+    const currentUser = useSelector(state => state.currentUser);
 
     
     const logout = e => {
         e.preventDefault()
         signOut(auth)
         .then(() => {
+            dispatch(clearCurrentUser());
+            console.log(currentUser)
             navigate('/')
         })
     }

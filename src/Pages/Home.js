@@ -1,24 +1,33 @@
 import React ,{useState,useEffect}from 'react'
 import { useCookies } from 'react-cookie';
-import { useAuthValue } from '../AuthContext.js';
 
 import CardsHome from "../components/Cards/CardsHome.js";
 import CardsHomeFav from "../components/Cards/CardsHomeFav.js";
 
+import { useSelector } from 'react-redux';
+import {getData} from '../firebase'
+
+
 const Home = () => {
-    let [pageNumber,setPageNumber] = useState(1); //to be used with pagination of characters
+    let [pageNumber] = useState(1); //to be used with pagination of characters
     let [fetchedData,updateFetchedData] = useState([]);
     let [fetchedFavData,updateFetchedFavData] = useState([]);
     let {results} = fetchedData;
     let [cookies] = useCookies(['favorites']);
     let favorites = cookies.favorites ? cookies.favorites : [];
     let idStr = favorites.toString();
-    const {currentUser} = useAuthValue();
+
+    const currentUser = useSelector(state => state.currentUser);
+    
+    /*getData('users/'+ currentUser.uid + '/favIds').then(data => {
+      console.log(data);
+    })*/
 
   
   
     let api = `https://rickandmortyapi.com/api/character/?page=${pageNumber}`;
     let apiFav = `https://rickandmortyapi.com/api/character/${idStr}`;
+
   
   
   
@@ -36,7 +45,7 @@ const Home = () => {
       })();
     },[apiFav]);
   
-    if(currentUser){
+    if(Object.keys(currentUser).length > 0){
       if(Array.isArray(favorites) && !favorites.length){
         return (
           <div className="App">
@@ -96,4 +105,6 @@ const Home = () => {
     
   }
 
-export default Home
+  
+
+export default Home;

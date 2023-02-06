@@ -2,31 +2,16 @@ import React from 'react'
 import styles from "./Cards.module.scss"
 import { Link } from 'react-router-dom';
 import FavButton from "../FavButton/FavButton.js"
-import { useAuthValue } from '../../AuthContext.js';
 
-function shuffle(arr) {
-    let currentIndex = arr.length,  randomIndex;
-  
-    // While there remain elements to shuffle.
-    while (currentIndex !== 0) {
-  
-      // Pick a remaining element.
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
-  
-      // And swap it with the current element.
-      [arr[currentIndex], arr[randomIndex]] = [
-        arr[randomIndex], arr[currentIndex]];
-    }
-  
-    return arr;
-  
-}
+import { useSelector } from 'react-redux';
+
+
 
 
 const Cardshome = ({results,page}) => {
     let display;
-    const {currentUser} = useAuthValue();
+    const currentUser = useSelector(state => state.currentUser);
+
 
     if(results){
         //shuffle the results to get 5 random characters
@@ -42,7 +27,7 @@ const Cardshome = ({results,page}) => {
                         <div className="fs-4 fw-bold text-dark">{name}</div>
                     </div>
                 </Link> 
-                {currentUser ? <FavButton id={id}/> : <React.Fragment/>}
+                {Object.keys(currentUser).length === 0 ? <React.Fragment/> : <FavButton id={id}/>}
                 
                 {(()=>{
                         if(status === "Dead"){

@@ -6,24 +6,25 @@ import Episodes from "./Pages/Episodes.js";
 import Favourite from "./Pages/Favourite.js";
 import Home from "./Pages/Home.js"
 
-import Register from "./Register.js";
-import Login from "./Login.js";
+import Register from "./Pages/Register.js";
+import Login from "./Pages/Login.js";
 import Logout from "./Pages/Logout.js";
 import {AuthProvider} from './AuthContext'
 import {auth} from './firebase'
 import {onAuthStateChanged} from 'firebase/auth'
-import PrivateRoute from './PrivateRoute'
 
 import {useState, useEffect} from 'react'
 
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import CardDetails from "./components/Cards/CardDetails.js";
 
+import { Provider } from 'react-redux';
+import store from './store';
+
 
 function App(){
 
   const [currentUser, setCurrentUser] = useState(null)
-  const [timeActive, setTimeActive] = useState(false)
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -32,8 +33,9 @@ function App(){
   }, [])
 
   return(
-    <Router>
-      <AuthProvider value={{currentUser, timeActive, setTimeActive}}>
+    <Provider store={store}>
+      <Router>
+      <AuthProvider value={{currentUser}}>
 
       <div className="App">
         <Navbar/>
@@ -60,6 +62,8 @@ function App(){
       </AuthProvider>
       
     </Router>
+    </Provider>
+    
   )
 
 }
