@@ -10,3 +10,7 @@ V2 : replacing cookie with firebase to store the favorited characters.
 Problem that hasnt been solved : 
 1. verifying if the character chosen is in the list stored in firebase which will show if the character has been favorited or not.
 2. fetching favorited characters in firebase to be shown in favorite page.
+
+Remarks to **Benjamin Robert**: 
+- commit 27b37a987cd2b9b9679072ef8d7bcdddf6b1805a works without using redux.
+- latest version doesnt work as problems mentioned before.
